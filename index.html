@@ -1,0 +1,1754 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnglishBuddy - Speaking Practice</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#e0eaff,#f7e8ff);
+    min-height: 100vh;
+    padding: 20px;
+    color: #222;
+}
+
+.container {
+    max-width: 750px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(0,0,0,.1);
+}
+
+h1 {
+    text-align: center;
+    color: #5541d7;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.levels,.buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.levels button {
+    flex: 1;
+}
+
+button {
+    border: none;
+    padding: 13px 16px;
+    border-radius: 9px;
+    background: #5541d7;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: .2s;
+}
+
+button:hover {
+    opacity: .85;
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.levels button.active {
+    background: #20127a;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.progress {
+    height: 9px;
+    background: #eee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #5541d7;
+    transition: .3s;
+}
+
+.question-box {
+    background: #f4f2ff;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.question-number {
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.question {
+    font-size: 24px;
+    font-weight: bold;
+    color: #31227c;
+    margin-bottom: 15px;
+}
+
+.hindi {
+    color: #555;
+    font-size: 17px;
+}
+
+.answer-area {
+    margin: 20px 0;
+}
+
+.answer-area label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
+    resize: vertical;
+    outline: none;
+    font-family: Arial;
+}
+
+textarea:focus {
+    border-color: #5541d7;
+}
+
+.buttons {
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.buttons button {
+    flex: 1;
+    min-width: 120px;
+}
+
+.mic {
+    background: #e63946;
+}
+
+.mic.listening {
+    background: #159957;
+}
+
+.secondary {
+    background: #555;
+}
+
+.next {
+    background: #159957;
+}
+
+.status {
+    margin-top: 15px;
+    text-align: center;
+    color: #5541d7;
+    font-weight: bold;
+    min-height: 25px;
+}
+
+.timer {
+    text-align: center;
+    color: #e63946;
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.feedback {
+    display: none;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    line-height: 1.8;
+}
+
+.feedback.correct {
+    display: block;
+    background: #e7f8ed;
+    border: 1px solid #8bd5a5;
+}
+
+.feedback.wrong {
+    display: block;
+    background: #fff1ed;
+    border: 1px solid #f3b4a5;
+}
+
+.feedback h3 {
+    margin-bottom: 10px;
+}
+
+.example {
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.instruction {
+    background: #fff9e8;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 15px;
+    color: #765b15;
+}
+
+@media(max-width:550px) {
+    .container {
+        padding: 20px 15px;
+    }
+
+    .levels {
+        flex-direction: column;
+    }
+
+    .question {
+        font-size: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button {
+        width: 100%;
+    }
+}
+
+:root {
+    color-scheme: light;
+    --ink: #172923;
+    --muted: #64736d;
+    --green: #176b51;
+    --green-dark: #104c3c;
+    --mint: #e8f2ed;
+    --line: #dce5df;
+    --coral: #c94d3b;
+    --paper: #ffffff;
+}
+
+body {
+    padding: 32px 18px;
+    color: var(--ink);
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    background-color: #edf2ef;
+    background-image: linear-gradient(rgba(23, 41, 35, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 41, 35, .035) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+.container {
+    max-width: 760px;
+    margin: 20px auto;
+    padding: 34px 38px;
+    border: 1px solid var(--line);
+    border-top: 5px solid var(--green);
+    border-radius: 8px;
+    background: var(--paper);
+    box-shadow: 0 18px 50px rgba(23, 41, 35, .09);
+}
+
+h1 {
+    margin-bottom: 5px;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    text-align: left;
+}
+
+.subtitle {
+    margin-bottom: 26px;
+    color: var(--muted);
+    text-align: left;
+}
+
+.levels {
+    gap: 8px;
+    padding: 5px;
+    margin-bottom: 25px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: #f5f7f5;
+}
+
+button {
+    min-height: 46px;
+    padding: 11px 15px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background: var(--green);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background-color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+button:hover:not(:disabled) {
+    background: var(--green-dark);
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+button:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #e8a04a;
+    outline-offset: 3px;
+}
+
+.levels button {
+    min-height: 40px;
+    color: var(--muted);
+    background: transparent;
+}
+
+.levels button:hover:not(:disabled) {
+    color: var(--green-dark);
+    background: var(--mint);
+}
+
+.levels button.active {
+    color: white;
+    background: var(--green-dark);
+}
+
+.progress-info {
+    margin-bottom: 9px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.progress {
+    height: 7px;
+    margin-bottom: 24px;
+    background: #e8eeea;
+}
+
+.progress-bar {
+    background: #53a67d;
+}
+
+.question-box {
+    padding: 30px 24px;
+    border: 1px solid #d5e5db;
+    border-radius: 6px;
+    background: var(--mint);
+    text-align: left;
+}
+
+.question-number {
+    margin-bottom: 15px;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.question {
+    margin-bottom: 10px;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 27px;
+    line-height: 1.3;
+}
+
+.hindi {
+    color: #53665e;
+    font-size: 16px;
+}
+
+.answer-area {
+    margin: 24px 0 18px;
+}
+
+.answer-area label {
+    margin-bottom: 9px;
+    color: var(--ink);
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 125px;
+    border: 1px solid #cbd7d0;
+    border-radius: 5px;
+    color: var(--ink);
+    font: 16px/1.5 "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+textarea:focus {
+    border-color: var(--green);
+}
+
+.buttons {
+    gap: 9px;
+    margin-top: 12px;
+}
+
+.buttons button {
+    flex: 1 1 150px;
+}
+
+.secondary {
+    border-color: var(--line);
+    color: var(--ink);
+    background: #f3f5f3;
+}
+
+.secondary:hover:not(:disabled) {
+    color: var(--ink);
+    background: #e6ebe7;
+}
+
+.mic {
+    background: var(--coral);
+}
+
+.mic:hover:not(:disabled) {
+    background: #a83b2d;
+}
+
+.mic.listening {
+    background: var(--green);
+}
+
+.next {
+    background: var(--green-dark);
+}
+
+.status {
+    min-height: 24px;
+    margin-top: 13px;
+    color: var(--green-dark);
+    font-size: 14px;
+}
+
+.timer {
+    color: var(--coral);
+    font-size: 13px;
+}
+
+.feedback {
+    padding: 18px;
+    border-radius: 5px;
+    line-height: 1.65;
+}
+
+.feedback.correct {
+    border-color: #a8d1b6;
+    background: #eff8f1;
+}
+
+.feedback.wrong {
+    border-color: #e5b4aa;
+    background: #fff3f0;
+}
+
+.feedback h3 {
+    margin-bottom: 8px;
+}
+
+.example {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+}
+
+.instruction {
+    border-left: 3px solid #dfa64b;
+    border-radius: 3px;
+    color: #685528;
+    background: #fbf7eb;
+    line-height: 1.5;
+}
+
+@media (max-width: 550px) {
+    body {
+        padding: 14px 10px;
+    }
+
+    .container {
+        margin: 8px auto;
+        padding: 25px 18px;
+    }
+
+    .levels {
+        flex-direction: row;
+    }
+
+    .levels button {
+        padding: 9px 5px;
+        font-size: 13px;
+    }
+
+    .question-box {
+        padding: 23px 18px;
+    }
+
+    .question {
+        font-size: 23px;
+    }
+
+    .buttons {
+        flex-direction: row;
+    }
+
+    .buttons button {
+        width: auto;
+        min-width: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="container">
+
+    <header>
+        <h1>EnglishBuddy</h1>
+
+        <p class="subtitle">
+            Improve your English speaking skills, one answer at a time.
+        </p>
+    </header>
+
+    <div class="levels" role="group" aria-label="Choose practice level">
+
+        <button class="active"
+        type="button" aria-pressed="true"
+        onclick="changeLevel('beginner',this)">
+            Beginner
+        </button>
+
+        <button type="button" aria-pressed="false" onclick="changeLevel('intermediate',this)">
+            Intermediate
+        </button>
+
+        <button type="button" aria-pressed="false" onclick="changeLevel('advanced',this)">
+            Advanced
+        </button>
+
+    </div>
+
+    <div class="progress-info">
+        <span id="questionCount">Question 1</span>
+        <span id="score">Score: 0</span>
+    </div>
+
+    <div class="progress" id="progressTrack" role="progressbar" aria-label="Practice progress" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="question-box">
+
+        <p class="question-number" id="levelName">
+            BEGINNER LEVEL
+        </p>
+
+        <div class="question" id="question">
+            How are you today?
+        </div>
+
+        <div class="hindi" id="hindi">
+            Aaj aap kaise hain?
+        </div>
+
+    </div>
+
+    <div class="buttons">
+
+        <button onclick="speakQuestion()">
+            🔊 Listen Question
+        </button>
+
+        <button class="secondary" onclick="repeatQuestion()">
+            🔁 Repeat
+        </button>
+
+    </div>
+
+    <div class="answer-area">
+
+        <label for="answer">Your Answer:</label>
+
+        <textarea
+            id="answer"
+            placeholder="Type your English answer here..."
+        ></textarea>
+
+    </div>
+
+    <div class="buttons">
+
+        <button class="mic" id="micButton"
+        onclick="toggleListening()">
+            🎤 Speak Answer
+        </button>
+
+        <button onclick="checkAnswer()">
+            Check Answer
+        </button>
+
+        <button class="secondary" onclick="clearAnswer()">
+            Clear
+        </button>
+
+    </div>
+
+    <div class="status" id="status" role="status" aria-live="polite">
+        Click Speak Answer and start speaking.
+    </div>
+
+    <div class="timer" id="timer"></div>
+
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+
+    <div class="instruction">
+        💡 Tip: Speak clearly in English. You can also type
+        your answer if your microphone is unavailable.
+    </div>
+
+    <div class="buttons">
+
+        <button class="next" id="nextButton"
+        onclick="nextQuestion()" disabled>
+            Next Question →
+        </button>
+
+        <button class="secondary" onclick="restart()">
+            Restart Practice
+        </button>
+
+    </div>
+
+</main>
+
+<script>
+
+// =====================================
+// QUESTIONS DATABASE
+// =====================================
+
+const questions = {
+
+beginner: [
+
+{
+q:"How are you today?",
+h:"Aaj aap kaise hain?",
+patterns:[/i am/i,/i'm/i],
+example:"I am fine today.",
+hi:"Is question mein apni condition batani hai. I am fine ka matlab hai main theek hoon.",
+en:"Use I am or I'm to describe how you feel.",
+hint:"Start with I am...",
+},
+
+{
+q:"What is your name?",
+h:"Aapka naam kya hai?",
+patterns:[/my name is/i,/i am/i,/i'm/i],
+example:"My name is Gautam.",
+hi:"Apna naam batane ke liye My name is ka use karein.",
+en:"Use My name is followed by your name.",
+hint:"Start with My name is..."
+},
+
+{
+q:"Where do you live?",
+h:"Aap kahan rehte hain?",
+patterns:[/i live/i,/i stay/i,/i am from/i],
+example:"I live in Ratlam.",
+hi:"Rehne ki jagah batane ke liye I live in use karein.",
+en:"Use I live in followed by your city.",
+hint:"Start with I live in..."
+},
+
+{
+q:"What do you do?",
+h:"Aap kya karte hain?",
+patterns:[/i am a/i,/i work/i,/i study/i,/i am learning/i],
+example:"I am a student.",
+hi:"Apne kaam ya padhai ke baare mein batayein.",
+en:"Tell what you do using I am, I work, or I study.",
+hint:"Start with I am a..."
+},
+
+{
+q:"Do you speak English?",
+h:"Kya aap English bolte hain?",
+patterns:[/yes,?\s*i do/i,/no,?\s*i don't/i,/i speak/i,/a little/i],
+example:"Yes, I speak English.",
+hi:"Yes ke saath I do ya apna poora answer bol sakte hain.",
+en:"You can answer Yes, I do or explain your English level.",
+hint:"Start with Yes, I do..."
+},
+
+{
+q:"What is your hobby?",
+h:"Aapka shauk kya hai?",
+patterns:[/my hobby is/i,/i like/i,/i love/i],
+example:"My hobby is playing cricket.",
+hi:"Hobby batane ke liye My hobby is use karein.",
+en:"Use My hobby is or I like.",
+hint:"Start with My hobby is..."
+},
+
+{
+q:"What did you eat today?",
+h:"Aaj aapne kya khaya?",
+patterns:[/i ate/i,/i had/i,/i have eaten/i],
+example:"I ate rice today.",
+hi:"Aaj kya khaya, batane ke liye past tense use karein.",
+en:"Use ate or had to talk about food you already ate.",
+hint:"Start with I ate..."
+},
+
+{
+q:"What are you doing?",
+h:"Aap kya kar rahe hain?",
+patterns:[/i am/i,/i'm/i],
+example:"I am learning English.",
+hi:"Abhi jo kaam kar rahe hain uske liye I am + verb-ing use karein.",
+en:"Use I am plus a verb ending in ing.",
+hint:"Start with I am..."
+},
+
+{
+q:"Do you like cricket?",
+h:"Kya aapko cricket pasand hai?",
+patterns:[/yes,?\s*i do/i,/no,?\s*i don't/i,/i like/i,/i love/i],
+example:"Yes, I like cricket.",
+hi:"Pasand batane ke liye I like use karein.",
+en:"Use I like or I don't like.",
+hint:"Start with Yes, I do..."
+},
+
+{
+q:"What time do you wake up?",
+h:"Aap kitne baje uthte hain?",
+patterns:[/i wake up/i,/i get up/i],
+example:"I wake up at 5 AM.",
+hi:"Roz uthne ka time batane ke liye I wake up use karein.",
+en:"Use I wake up at followed by the time.",
+hint:"Start with I wake up..."
+},
+
+{
+q:"Do you have a laptop?",
+h:"Kya aapke paas laptop hai?",
+patterns:[/yes,?\s*i do/i,/no,?\s*i don't/i,/i have/i],
+example:"Yes, I have a laptop.",
+hi:"Kisi cheez ke paas hone ke liye I have use karein.",
+en:"Use I have to say that you own something.",
+hint:"Start with Yes, I have..."
+},
+
+{
+q:"What is your favourite food?",
+h:"Aapka pasandida khana kya hai?",
+patterns:[/my favourite/i,/i like/i,/i love/i],
+example:"My favourite food is pizza.",
+hi:"Pasandida khane ke liye My favourite food is use karein.",
+en:"Use My favourite food is followed by a food name.",
+hint:"Start with My favourite food is..."
+},
+
+{
+q:"Are you learning English?",
+h:"Kya aap English seekh rahe hain?",
+patterns:[/yes,?\s*i am/i,/no,?\s*i'm not/i,/i am learning/i],
+example:"Yes, I am learning English.",
+hi:"Present continuous mein I am learning ka use hota hai.",
+en:"Use I am learning to describe something happening now.",
+hint:"Start with Yes, I am..."
+},
+
+{
+q:"What did you do yesterday?",
+h:"Aapne kal kya kiya?",
+patterns:[/i went/i,/i played/i,/i studied/i,/i worked/i,/i watched/i,/i visited/i],
+example:"I studied English yesterday.",
+hi:"Yesterday ke saath past tense use hota hai.",
+en:"Use a past-tense verb to describe yesterday.",
+hint:"Start with I studied..."
+},
+
+{
+q:"Who is your best friend?",
+h:"Aapka sabse achha dost kaun hai?",
+patterns:[/my best friend/i,/his name/i,/her name/i],
+example:"My best friend is Rahul.",
+hi:"Dost ka naam batane ke liye My best friend is use karein.",
+en:"Use My best friend is followed by the name.",
+hint:"Start with My best friend is..."
+},
+
+{
+q:"Can you cook food?",
+h:"Kya aap khana bana sakte hain?",
+patterns:[/yes,?\s*i can/i,/no,?\s*i can't/i,/i can cook/i],
+example:"Yes, I can cook food.",
+hi:"Ability batane ke liye can ka use karein.",
+en:"Use I can or I can't to describe ability.",
+hint:"Start with Yes, I can..."
+},
+
+{
+q:"What are your future plans?",
+h:"Aapke future plans kya hain?",
+patterns:[/i want to/i,/i will/i,/my plan/i,/i am going to/i],
+example:"I want to become a software developer.",
+hi:"Future plan batane ke liye I want to ya I will use karein.",
+en:"Use I want to or I will to describe your future plans.",
+hint:"Start with I want to..."
+},
+
+{
+q:"Why are you learning English?",
+h:"Aap English kyun seekh rahe hain?",
+patterns:[/i want to/i,/because/i,/for my/i],
+example:"I am learning English because I want to get a job.",
+hi:"Reason batane ke liye because ka use karein.",
+en:"Use because to explain your reason.",
+hint:"Start with I am learning English because..."
+},
+
+{
+q:"What do you do in your free time?",
+h:"Aap free time mein kya karte hain?",
+patterns:[/i watch/i,/i play/i,/i read/i,/i like/i,/i listen/i],
+example:"I play cricket in my free time.",
+hi:"Free time ki activity batane ke liye I play ya I watch use karein.",
+en:"Use I play, I watch, or I read to describe your free-time activities.",
+hint:"Start with I..."
+},
+
+{
+q:"How was your day?",
+h:"Aapka din kaisa tha?",
+patterns:[/my day was/i,/it was/i,/today was/i],
+example:"My day was very good.",
+hi:"Din kaisa tha batane ke liye My day was use karein.",
+en:"Use My day was followed by a description.",
+hint:"Start with My day was..."
+}
+
+],
+
+intermediate: [
+
+{
+q:"Why do you want to become a software developer?",
+h:"Aap software developer kyun banna chahte hain?",
+patterns:[/i want to/i,/because/i,/i like/i],
+example:"I want to become a software developer because I love coding.",
+hi:"Apna reason batane ke liye because ka use karein.",
+en:"Explain your reason using because.",
+hint:"Start with I want to become..."
+},
+
+{
+q:"What did you learn this week?",
+h:"Aapne is hafte kya seekha?",
+patterns:[/i learned/i,/i have learned/i,/i studied/i],
+example:"I learned JavaScript this week.",
+hi:"Is hafte seekhi hui cheez batane ke liye I learned use karein.",
+en:"Use I learned or I have learned.",
+hint:"Start with I learned..."
+},
+
+{
+q:"What would you do if you were rich?",
+h:"Agar aap ameer hote to kya karte?",
+patterns:[/i would/i],
+example:"I would buy a big house.",
+hi:"Imaginary situation mein would ka use hota hai.",
+en:"Use I would followed by the base form of a verb.",
+hint:"Start with I would..."
+},
+
+{
+q:"Describe your daily routine.",
+h:"Apni daily routine batayein.",
+patterns:[/i wake/i,/i get/i,/i go/i,/i study/i],
+example:"I wake up at 5 AM and study English.",
+hi:"Daily routine ke liye simple present tense use karein.",
+en:"Use the simple present tense for daily habits.",
+hint:"Start with I wake up..."
+},
+
+{
+q:"What are your strengths?",
+h:"Aapki khoobiyan kya hain?",
+patterns:[/i am good/i,/my strengths/i,/i can/i,/i learn/i],
+example:"I am good at problem solving.",
+hi:"Apni khoobiyan batane ke liye I am good at use karein.",
+en:"Use I am good at followed by a skill.",
+hint:"Start with I am good at..."
+},
+
+{
+q:"How do you handle difficult situations?",
+h:"Aap mushkil situations ko kaise sambhalte hain?",
+patterns:[/i try/i,/i stay/i,/i solve/i],
+example:"I stay calm and try to solve the problem.",
+hi:"Apna tareeka batane ke liye I try ya I stay use karein.",
+en:"Explain your approach using I try or I stay calm.",
+hint:"Start with I stay calm..."
+},
+
+{
+q:"What will you do tomorrow?",
+h:"Aap kal kya karenge?",
+patterns:[/i will/i,/i am going to/i],
+example:"I will practice English tomorrow.",
+hi:"Future ke liye I will ka use karein.",
+en:"Use I will followed by the base verb.",
+hint:"Start with I will..."
+},
+
+{
+q:"Tell me about your education.",
+h:"Apni education ke baare mein batayein.",
+patterns:[/i completed/i,/i have completed/i,/i studied/i,/i graduated/i],
+example:"I completed my B.Com degree.",
+hi:"Education batane ke liye I completed ya I studied use karein.",
+en:"Use I completed or I studied to describe your education.",
+hint:"Start with I completed..."
+},
+
+{
+q:"What makes you happy?",
+h:"Aapko kya khush karta hai?",
+patterns:[/makes me happy/i,/i feel happy/i,/i am happy/i],
+example:"Learning new things makes me happy.",
+hi:"Khushi batane ke liye makes me happy use karein.",
+en:"Use makes me happy to explain what brings you joy.",
+hint:"Start with ... makes me happy."
+},
+
+{
+q:"Where do you see yourself in five years?",
+h:"Aap khud ko paanch saal baad kahan dekhte hain?",
+patterns:[/i see myself/i,/i want to/i,/i will be/i],
+example:"I see myself as a successful software developer.",
+hi:"Future goal batane ke liye I see myself use karein.",
+en:"Use I see myself as to describe your future position.",
+hint:"Start with I see myself..."
+}
+
+],
+
+advanced: [
+
+{
+q:"What is the biggest challenge you have faced?",
+h:"Aapne sabse badi mushkil ka saamna kya kiya hai?",
+patterns:[/i faced/i,/my biggest challenge/i,/i learned/i],
+example:"My biggest challenge was learning programming.",
+hi:"Apna experience batane ke liye My biggest challenge was use karein.",
+en:"Describe a challenge and explain what you learned from it.",
+hint:"Start with My biggest challenge..."
+},
+
+{
+q:"How can technology improve education?",
+h:"Technology education ko kaise behtar bana sakti hai?",
+patterns:[/technology can/i,/it helps/i,/students can/i],
+example:"Technology can make education more accessible.",
+hi:"Apni opinion batane ke liye Technology can use karein.",
+en:"Explain how technology can help students and teachers.",
+hint:"Start with Technology can..."
+},
+
+{
+q:"What would you change about the world?",
+h:"Aap duniya mein kya badalna chahenge?",
+patterns:[/i would/i,/i want to/i],
+example:"I would improve education for everyone.",
+hi:"Apni imaginary choice batane ke liye I would use karein.",
+en:"Use I would to describe a change you want to make.",
+hint:"Start with I would..."
+},
+
+{
+q:"Why is communication important in the workplace?",
+h:"Workplace mein communication kyun zaroori hai?",
+patterns:[/communication is/i,/because/i,/it helps/i],
+example:"Communication is important because it helps teams work together.",
+hi:"Reason samjhane ke liye because ka use karein.",
+en:"Explain the importance of communication and give a reason.",
+hint:"Start with Communication is important because..."
+},
+
+{
+q:"Describe a goal you want to achieve.",
+h:"Ek aisa goal batayein jise aap paana chahte hain.",
+patterns:[/my goal/i,/i want to/i,/i hope to/i],
+example:"My goal is to become a successful developer.",
+hi:"Goal batane ke liye My goal is to use karein.",
+en:"Describe your goal and how you plan to achieve it.",
+hint:"Start with My goal is..."
+}
+
+]
+
+};
+
+
+// =====================================
+// APPLICATION STATE
+// =====================================
+
+let currentLevel = "beginner";
+let currentIndex = 0;
+let score = 0;
+let answered = false;
+let recognition = null;
+let micActive = false;
+let silenceTimer = null;
+let maxListenTimer = null;
+let listenSeconds = 15;
+let finalTranscript = "";
+let isComplete = false;
+
+
+// =====================================
+// LOAD QUESTION
+// =====================================
+
+function loadQuestion() {
+
+    stopListening();
+
+    const list = questions[currentLevel];
+    const item = list[currentIndex];
+
+    isComplete = false;
+
+    document.getElementById("question").innerText = item.q;
+
+    document.getElementById("hindi").innerText = item.h;
+
+    document.getElementById("questionCount").innerText =
+        `Question ${currentIndex + 1} / ${list.length}`;
+
+    document.getElementById("levelName").innerText =
+        currentLevel.toUpperCase() + " LEVEL";
+
+    document.getElementById("score").innerText =
+        "Score: " + score;
+
+    document.getElementById("progressBar").style.width =
+        (currentIndex / list.length * 100) + "%";
+
+    const progressTrack = document.getElementById("progressTrack");
+    progressTrack.setAttribute("aria-valuemax", list.length);
+    progressTrack.setAttribute("aria-valuenow", currentIndex);
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("feedback").style.display = "none";
+
+    document.getElementById("feedback").className = "feedback";
+
+    document.getElementById("nextButton").disabled = true;
+
+    document.getElementById("status").innerText =
+        "Type your answer or click Speak Answer.";
+
+    document.getElementById("timer").innerText = "";
+
+    answered = false;
+
+}
+
+
+// =====================================
+// CHANGE LEVEL
+// =====================================
+
+function changeLevel(level, button) {
+
+    stopListening();
+
+    currentLevel = level;
+
+    currentIndex = 0;
+
+    score = 0;
+
+    document.querySelectorAll(".levels button").forEach(btn => {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-pressed", "false");
+    });
+
+    button.classList.add("active");
+    button.setAttribute("aria-pressed", "true");
+
+    loadQuestion();
+
+}
+
+
+// =====================================
+// CHECK ANSWER
+// =====================================
+
+function checkAnswer() {
+
+    if (answered || isComplete) return;
+
+    stopListening();
+
+    const answer = document.getElementById("answer").value.trim();
+
+    const item = questions[currentLevel][currentIndex];
+
+    const feedback = document.getElementById("feedback");
+
+    if (!answer) {
+
+        document.getElementById("status").innerText =
+            "Please type or speak your answer first.";
+
+        return;
+
+    }
+
+    const normalized = answer.toLowerCase().replace(/[.!?,]/g, " ");
+
+    const isCorrect = item.patterns.some(pattern =>
+        pattern.test(normalized)
+    );
+
+    if (isCorrect) {
+
+        score++;
+
+        feedback.className = "feedback correct";
+
+        feedback.innerHTML = `
+            <h3>✅ Correct Answer!</h3>
+
+            <p><b>Your Answer:</b> ${escapeHTML(answer)}</p>
+
+            <p><b>Hindi Explanation:</b> ${escapeHTML(item.hi)}</p>
+
+            <p><b>English Explanation:</b> ${escapeHTML(item.en)}</p>
+
+            <div class="example">
+                <b>Example:</b> ${escapeHTML(item.example)}
+            </div>
+
+            <p>🎉 Great job! Keep practicing.</p>
+        `;
+
+        document.getElementById("status").innerText =
+            "Your answer is accepted!";
+
+        document.getElementById("nextButton").disabled = false;
+
+        answered = true;
+
+        const progressTrack = document.getElementById("progressTrack");
+        progressTrack.setAttribute("aria-valuenow", currentIndex + 1);
+        document.getElementById("progressBar").style.width =
+            ((currentIndex + 1) / questions[currentLevel].length * 100) + "%";
+
+        speakText("Correct answer. " + item.example);
+
+    } else {
+
+        feedback.className = "feedback wrong";
+
+        feedback.innerHTML = `
+            <h3>❌ Try Again!</h3>
+
+            <p><b>Your Answer:</b> ${escapeHTML(answer)}</p>
+
+            <p><b>Hindi Explanation:</b> ${escapeHTML(item.hi)}</p>
+
+            <p><b>English Explanation:</b> ${escapeHTML(item.en)}</p>
+
+            <div class="example">
+                <b>Correct Example:</b> ${escapeHTML(item.example)}
+            </div>
+
+            <p><b>Hint:</b> ${escapeHTML(item.hint)}</p>
+
+            <p>Try answering this question again.</p>
+        `;
+
+        document.getElementById("status").innerText =
+            "Wrong answer. Read the explanation and try again.";
+
+        answered = false;
+
+        document.getElementById("nextButton").disabled = true;
+
+        speakText("Try again. " + item.hint);
+
+    }
+
+    document.getElementById("score").innerText =
+        "Score: " + score;
+
+}
+
+
+// =====================================
+// ESCAPE HTML
+// =====================================
+
+function escapeHTML(text) {
+
+    return String(text).replace(/[&<>"']/g, function(char) {
+
+        const map = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        };
+
+        return map[char];
+
+    });
+
+}
+
+
+// =====================================
+// SPEAK QUESTION
+// =====================================
+
+function speakQuestion() {
+
+    if (isComplete) return;
+
+    const item = questions[currentLevel][currentIndex];
+
+    speakText(item.q);
+
+}
+
+
+// =====================================
+// REPEAT QUESTION
+// =====================================
+
+function repeatQuestion() {
+
+    speakQuestion();
+
+}
+
+
+// =====================================
+// TEXT TO SPEECH
+// =====================================
+
+function speakText(text) {
+
+    if (!("speechSynthesis" in window)) {
+
+        document.getElementById("status").innerText =
+            "Your browser does not support voice output.";
+
+        return;
+
+    }
+
+    window.speechSynthesis.cancel();
+
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.lang = "en-US";
+
+    speech.rate = 0.85;
+
+    speech.pitch = 1;
+
+    window.speechSynthesis.speak(speech);
+
+}
+
+
+// =====================================
+// TOGGLE MICROPHONE
+// =====================================
+
+function toggleListening() {
+
+    if (micActive) {
+
+        stopListening();
+
+        submitVoiceAnswer();
+
+    } else {
+
+        startListening();
+
+    }
+
+}
+
+
+// =====================================
+// START MICROPHONE
+// =====================================
+
+function startListening() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+
+        alert(
+            "Speech recognition is not supported. Please use updated Google Chrome."
+        );
+
+        return;
+
+    }
+
+    if (answered || isComplete) return;
+
+    stopListening();
+
+    recognition = new SpeechRecognition();
+
+    recognition.lang = "en-IN";
+
+    recognition.continuous = true;
+
+    recognition.interimResults = true;
+
+    finalTranscript = "";
+
+    micActive = true;
+
+    const micButton = document.getElementById("micButton");
+
+    micButton.innerText = "⏹ Stop Speaking";
+
+    micButton.classList.add("listening");
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("status").innerText =
+        "🎤 Listening... Speak your answer clearly.";
+
+    let seconds = listenSeconds;
+
+    document.getElementById("timer").innerText =
+        "Listening time: " + seconds + " seconds";
+
+    // MAXIMUM LISTENING TIME
+
+    maxListenTimer = setInterval(() => {
+
+        seconds--;
+
+        document.getElementById("timer").innerText =
+            "Listening time: " + seconds + " seconds";
+
+        if (seconds <= 0) {
+
+            const hasAnswer =
+                (document.getElementById("answer").value.trim()).length > 0;
+
+            stopListening();
+
+            if (hasAnswer) {
+
+                submitVoiceAnswer();
+
+            } else {
+
+                document.getElementById("status").innerText =
+                    "Time finished. I could not hear your answer. Try again.";
+
+            }
+
+        }
+
+    }, 1000);
+
+
+    // SPEECH RESULT
+
+    recognition.onresult = function(event) {
+
+        let interimTranscript = "";
+
+        for (
+            let i = event.resultIndex;
+            i < event.results.length;
+            i++
+        ) {
+
+            const transcript =
+                event.results[i][0].transcript;
+
+            if (event.results[i].isFinal) {
+
+                finalTranscript += transcript + " ";
+
+            } else {
+
+                interimTranscript += transcript;
+
+            }
+
+        }
+
+        const currentText =
+            (finalTranscript + interimTranscript).trim();
+
+        document.getElementById("answer").value =
+            currentText;
+
+        if (currentText.trim()) {
+
+            document.getElementById("status").innerText =
+                "Your voice is being recognized...";
+
+            clearTimeout(silenceTimer);
+
+            // Wait until the user stops speaking
+
+            if (finalTranscript.trim()) {
+
+                silenceTimer = setTimeout(() => {
+
+                    if (micActive) {
+
+                        stopListening();
+
+                        submitVoiceAnswer();
+
+                    }
+
+                }, 2500);
+
+            }
+
+        }
+
+    };
+
+
+    // MICROPHONE ERRORS
+
+    recognition.onerror = function(event) {
+
+        if (!micActive) return;
+
+        const errorMessages = {
+
+            "not-allowed":
+            "Microphone permission denied. Allow microphone access in Chrome.",
+
+            "no-speech":
+            "No speech detected. Please speak clearly and try again.",
+
+            "audio-capture":
+            "Microphone not found. Check your microphone connection.",
+
+            "network":
+            "Network error. Check your internet connection.",
+
+            "service-not-allowed":
+            "Speech recognition service is unavailable."
+
+        };
+
+        document.getElementById("status").innerText =
+            errorMessages[event.error] ||
+            "Microphone error: " + event.error;
+
+        stopListening();
+
+    };
+
+
+    // RESTART RECOGNITION IF IT STOPS UNEXPECTEDLY
+
+    recognition.onend = function() {
+
+        if (micActive && recognition) {
+
+            try {
+
+                recognition.start();
+
+            } catch(error) {
+
+                // Recognition may already be running.
+
+            }
+
+        }
+
+    };
+
+
+    try {
+
+        recognition.start();
+
+    } catch(error) {
+
+        stopListening();
+
+        document.getElementById("status").innerText =
+            "Could not start microphone. Please try again.";
+
+    }
+
+}
+
+
+// =====================================
+// SUBMIT VOICE ANSWER
+// =====================================
+
+function submitVoiceAnswer() {
+
+    const answer =
+        document.getElementById("answer").value.trim();
+
+    if (answer) {
+
+        document.getElementById("status").innerText =
+            "Voice answer received. Checking your answer...";
+
+        checkAnswer();
+
+    } else {
+
+        document.getElementById("status").innerText =
+            "I could not hear your answer. Please try speaking again.";
+
+    }
+
+}
+
+
+// =====================================
+// STOP MICROPHONE
+// =====================================
+
+function stopListening() {
+
+    micActive = false;
+
+    clearTimeout(silenceTimer);
+
+    clearInterval(maxListenTimer);
+
+    silenceTimer = null;
+
+    maxListenTimer = null;
+
+    const micButton = document.getElementById("micButton");
+
+    if (micButton) {
+
+        micButton.disabled = false;
+
+        micButton.innerText = "🎤 Speak Answer";
+
+        micButton.classList.remove("listening");
+
+    }
+
+    if (recognition) {
+
+        const oldRecognition = recognition;
+
+        recognition = null;
+
+        try {
+
+            oldRecognition.stop();
+
+        } catch(error) {
+
+            // Already stopped.
+
+        }
+
+    }
+
+    document.getElementById("timer").innerText = "";
+
+}
+
+
+// =====================================
+// CLEAR ANSWER
+// =====================================
+
+function clearAnswer() {
+
+    if (answered) return;
+
+    stopListening();
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("feedback").style.display = "none";
+
+    document.getElementById("status").innerText =
+        "Answer cleared. Try again.";
+
+}
+
+
+// =====================================
+// NEXT QUESTION
+// =====================================
+
+function nextQuestion() {
+
+    if (!answered || isComplete) return;
+
+    stopListening();
+
+    currentIndex++;
+
+    if (currentIndex >= questions[currentLevel].length) {
+
+        isComplete = true;
+
+        document.getElementById("progressBar").style.width = "100%";
+        document.getElementById("progressTrack").setAttribute(
+            "aria-valuenow",
+            questions[currentLevel].length
+        );
+
+        document.getElementById("question").innerText =
+            "🎉 Practice Completed!";
+
+        document.getElementById("hindi").innerText =
+            "Aapne is level ke saare questions complete kar liye.";
+
+        document.getElementById("questionCount").innerText =
+            "Completed";
+
+        document.getElementById("feedback").className =
+            "feedback correct";
+
+        document.getElementById("feedback").style.display =
+            "block";
+
+        document.getElementById("feedback").innerHTML = `
+            <h3>🎉 Congratulations!</h3>
+
+            <p>Your final score:
+            <b>${score} / ${questions[currentLevel].length}</b></p>
+
+            <p>You completed the ${currentLevel} level.</p>
+
+            <p>Keep practicing to improve your English speaking.</p>
+        `;
+
+        document.getElementById("nextButton").disabled = true;
+
+        document.getElementById("status").innerText =
+            "You completed this level successfully!";
+
+        speakText("Congratulations! You completed this level.");
+
+        return;
+
+    }
+
+    loadQuestion();
+
+}
+
+
+// =====================================
+// RESTART PRACTICE
+// =====================================
+
+function restart() {
+
+    stopListening();
+
+    window.speechSynthesis?.cancel();
+
+    currentIndex = 0;
+
+    score = 0;
+
+    answered = false;
+
+    isComplete = false;
+
+    loadQuestion();
+
+    document.getElementById("status").innerText =
+        "Practice restarted. Good luck!";
+
+}
+
+
+// =====================================
+// INITIALIZE WEBSITE
+// =====================================
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
